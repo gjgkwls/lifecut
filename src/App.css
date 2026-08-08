@@ -1,0 +1,772 @@
+.app {
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 24px;
+}
+
+/* ---------- 떠다니는 스티커 장식 ---------- */
+
+.sticker-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sticker {
+  position: absolute;
+  filter: drop-shadow(0 4px 8px rgba(107, 78, 61, 0.25)) sepia(0.25);
+  opacity: 0.85;
+  animation: sticker-float 5s ease-in-out infinite;
+}
+
+@keyframes sticker-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(4deg);
+  }
+}
+
+/* ---------- 빈티지 윈도우 프레임 ---------- */
+
+.retro-window {
+  background: #fbf6ea;
+  border: 1px solid #6b4e3d;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(107, 78, 61, 0.22);
+  overflow: hidden;
+}
+
+.retro-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, #f2e9db 0%, #e5d7bd 100%);
+  border-bottom: 1px solid #6b4e3d;
+}
+
+.traffic-lights {
+  display: flex;
+  gap: 6px;
+}
+
+.light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.light-red {
+  background: #d96a5a;
+}
+
+.light-yellow {
+  background: #e5b94e;
+}
+
+.light-green {
+  background: #8f9d7a;
+}
+
+.retro-title {
+  flex: 1;
+  text-align: center;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-weight: 400;
+  font-size: 17px;
+  color: #6b4e3d;
+  letter-spacing: 0.5px;
+}
+
+.retro-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.retro-controls i {
+  font-style: normal;
+  font-size: 9px;
+  line-height: 16px;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  color: #6b4e3d;
+  background: rgba(251, 246, 234, 0.9);
+  border: 1px solid rgba(166, 124, 82, 0.5);
+  border-radius: 4px;
+}
+
+.retro-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 22px;
+}
+
+/* ---------- 시작 화면 ---------- */
+
+.start-window {
+  width: min(92vw, 430px);
+  text-align: center;
+}
+
+.start-window .retro-body {
+  padding: 32px 28px 36px;
+  gap: 22px;
+}
+
+/* 테이프로 붙인 메모지 */
+.memo {
+  position: relative;
+  width: 100%;
+  padding: 32px 20px 28px;
+  background: #f7f0df;
+  border: 1px solid #e0d3b8;
+  box-shadow: 0 4px 12px rgba(107, 78, 61, 0.12);
+  transform: rotate(-1.2deg);
+}
+
+.memo::before {
+  content: '';
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  width: 110px;
+  height: 28px;
+  transform: translateX(-50%) rotate(2deg);
+  background: rgba(143, 157, 122, 0.65);
+  border-left: 1px dashed rgba(251, 246, 234, 0.8);
+  border-right: 1px dashed rgba(251, 246, 234, 0.8);
+}
+
+.hero-line {
+  margin: 0;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 19px;
+  color: #a67c52;
+}
+
+.hero-title {
+  margin: 6px 0 12px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 1.1;
+  color: #94493a;
+  text-shadow: 0 2px 0 rgba(251, 246, 234, 0.8);
+}
+
+.hero-sub {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #6b4e3d;
+}
+
+.start-button {
+  padding: 15px 52px;
+  border-radius: 10px;
+  border: none;
+  background: #8f9d7a;
+  color: #f7f2e7;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  animation: start-pulse 2.4s ease-in-out infinite;
+  transition: filter 0.15s ease;
+}
+
+/* 숨쉬듯 은은하게 커졌다 작아지는 펄스 */
+@keyframes start-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.start-button:hover {
+  filter: brightness(1.08);
+}
+
+.start-button:active {
+  filter: brightness(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .start-button {
+    animation: none;
+  }
+}
+
+.site-credit {
+  position: fixed;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: rgba(107, 78, 61, 0.65);
+  z-index: 3;
+}
+
+/* ---------- 촬영 화면 ---------- */
+
+.capture-window {
+  width: min(94vw, 860px);
+}
+
+.capture-window .retro-body {
+  padding: 16px 16px 18px;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-heart {
+  font-size: 20px;
+  color: rgba(183, 125, 125, 0.3);
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.progress-heart.filled {
+  color: #b77d7d;
+  transform: scale(1.2);
+}
+
+.progress-label {
+  margin-left: 8px;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 15px;
+  color: #a67c52;
+}
+
+.camera-frame {
+  /* 크기와 비율은 레이아웃(컷 수)에 따라 인라인 스타일로 지정 */
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #2e2e2e;
+  border: 1px solid #d6c4a3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+/* 아티스트 프레임 인물 오버레이 — 크기/위치는 captureFrame의 OVERLAY_MAX_WIDTH 계산과 동일해야 함 */
+.camera-overlay {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 65%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left bottom;
+  pointer-events: none;
+}
+
+.camera-hint {
+  margin: 0;
+  font-size: 15px;
+  color: #f2e9db;
+}
+
+.camera-frame .camera-hint {
+  position: absolute;
+}
+
+.result-screen .camera-hint {
+  color: #6b4e3d;
+}
+
+.countdown {
+  position: absolute;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(96px, 22vw, 170px);
+  color: #f7f2e7;
+  text-shadow:
+    0 0 30px rgba(46, 46, 46, 0.6),
+    0 8px 24px rgba(46, 46, 46, 0.7);
+  animation: countdown-pop 1s ease-out;
+}
+
+@keyframes countdown-pop {
+  0% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+}
+
+.flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+
+.flash.on {
+  opacity: 0.9;
+}
+
+.capture-hint {
+  margin: 0;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 14px;
+  color: #a67c52;
+}
+
+/* ---------- 일시정지 ---------- */
+
+.pause-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(107, 78, 61, 0.75);
+  color: #f2e9db;
+  font-size: 14px;
+  letter-spacing: 1px;
+  transition: transform 0.15s ease;
+}
+
+.pause-button:hover {
+  transform: scale(1.1);
+}
+
+/* 하단 중앙 셔터 버튼 — 누르면 카운트다운을 기다리지 않고 즉시 촬영 */
+.snap-button {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(107, 78, 61, 0.75);
+  color: #f2e9db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.snap-button:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.snap-button:active {
+  transform: translateX(-50%) scale(0.92);
+}
+
+.pause-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(46, 46, 46, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.pause-title {
+  margin: 0;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-weight: 400;
+  font-size: 26px;
+  color: #f7f2e7;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- 컷 수 선택 화면 ---------- */
+
+.select-window {
+  width: min(94vw, 560px);
+}
+
+.select-window .retro-body {
+  padding: 26px 22px;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
+.option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e0d3b8;
+  background: #f7f0df;
+  box-shadow: 0 2px 6px rgba(107, 78, 61, 0.1);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.option-card:hover {
+  transform: scale(1.04);
+  border-color: #a67c52;
+}
+
+.option-label {
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 16px;
+  color: #6b4e3d;
+}
+
+/* 컷 수 카드의 미니 레이아웃 프리뷰 */
+.mini-frame {
+  border: 1px solid #a67c52;
+  border-radius: 4px;
+  background: #e5d7bd;
+  padding: 4px;
+  display: grid;
+  gap: 3px;
+}
+
+.mini-cell {
+  background: #fbf6ea;
+  border-radius: 1px;
+}
+
+.mini-single {
+  width: 38px;
+  height: 64px;
+  padding: 16px 9px;
+}
+
+.mini-duo {
+  width: 42px;
+  height: 64px;
+  grid-template-rows: 1fr 1fr;
+}
+
+.mini-strip4,
+.mini-hajin4 {
+  width: 36px;
+  height: 78px;
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.mini-grid4 {
+  width: 54px;
+  height: 72px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+/* ---------- 프레임 선택 화면 ---------- */
+
+.frame-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.frame-card {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e0d3b8;
+  background: #f7f0df;
+  box-shadow: 0 2px 6px rgba(107, 78, 61, 0.1);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.frame-card:hover {
+  transform: scale(1.04);
+  border-color: #a67c52;
+}
+
+.frame-thumb {
+  display: block;
+  width: 80px;
+  height: 132px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.back-button {
+  margin-top: 4px;
+  padding: 6px 14px;
+  background: none;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 14px;
+  color: #a67c52;
+  transition: color 0.15s ease;
+}
+
+.back-button:hover {
+  color: #6b4e3d;
+}
+
+/* ---------- 결과 화면 ---------- */
+
+.result-title {
+  margin: 0;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-weight: 400;
+  font-size: 30px;
+  color: #6b4e3d;
+  text-shadow: 0 2px 0 rgba(251, 246, 234, 0.9);
+}
+
+.strip-wrap {
+  position: relative;
+}
+
+/* 마스킹 테이프 */
+.strip-wrap::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 120px;
+  height: 30px;
+  transform: translateX(-50%) rotate(-4deg);
+  background: rgba(143, 157, 122, 0.7);
+  border-left: 1px dashed rgba(251, 246, 234, 0.8);
+  border-right: 1px dashed rgba(251, 246, 234, 0.8);
+  z-index: 2;
+}
+
+.strip-preview {
+  display: block;
+  max-height: 62dvh;
+  max-width: 86vw;
+  box-shadow: 0 12px 30px rgba(107, 78, 61, 0.3);
+}
+
+/* 흑백/컬러 아이콘 토글 (무지개 원 = 컬러, 반반 원 = 흑백) */
+.tone-toggle {
+  display: flex;
+  gap: 16px;
+}
+
+.tone-button {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  transition: transform 0.15s ease;
+}
+
+.tone-button:hover {
+  transform: scale(1.1);
+}
+
+.tone-button.active {
+  outline: 2px solid #6b4e3d;
+  outline-offset: 3px;
+}
+
+.tone-color {
+  background: conic-gradient(
+    #d96a5a,
+    #e5b94e,
+    #f0dc7a,
+    #8f9d7a,
+    #6f9bbf,
+    #8b78b5,
+    #b77d7d,
+    #d96a5a
+  );
+}
+
+.tone-mono {
+  background: linear-gradient(90deg, #2e2e2e 50%, #ffffff 50%);
+}
+
+/* 사진 속 by.hajin 크레딧 노출 토글 */
+.credit-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+}
+
+.credit-toggle-label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #6b4e3d;
+}
+
+.credit-toggle-track {
+  position: relative;
+  width: 38px;
+  height: 21px;
+  border-radius: 11px;
+  background: #d6c4a3;
+  transition: background 0.2s ease;
+}
+
+.credit-toggle-knob {
+  position: absolute;
+  top: 2.5px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fbf6ea;
+  box-shadow: 0 1px 3px rgba(107, 78, 61, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.credit-toggle.on .credit-toggle-track {
+  background: #8f9d7a;
+}
+
+.credit-toggle.on .credit-toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ---------- 공통 버튼 ---------- */
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.primary-button,
+.secondary-button {
+  padding: 13px 34px;
+  border-radius: 10px;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 15px;
+  letter-spacing: 2px;
+  transition: transform 0.15s ease;
+}
+
+.primary-button {
+  border: none;
+  background: #8f9d7a;
+  color: #f7f2e7;
+}
+
+.primary-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.secondary-button {
+  border: 1px solid #c9b48f;
+  background: #faf5e9;
+  color: #6b4e3d;
+}
+
+/* 결과 화면의 retake 버튼만 밝은 크림 테두리 */
+.result-screen .secondary-button {
+  border-color: #ffebc7;
+}
+
+.primary-button:not(:disabled):hover,
+.secondary-button:hover {
+  transform: scale(1.05);
+}
+
+/* ---------- 에러(Notice) 화면 ---------- */
+
+.notice-window {
+  width: min(92vw, 400px);
+}
+
+.notice-window .retro-body {
+  padding: 26px 24px;
+}
+
+.error-message {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #6b4e3d;
+}
+
+/* ---------- 모바일 미세 조정 ---------- */
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 46px;
+  }
+
+  .retro-body {
+    padding: 16px 12px;
+  }
+
+  .primary-button,
+  .secondary-button {
+    padding: 12px 26px;
+    font-size: 14px;
+  }
+}
