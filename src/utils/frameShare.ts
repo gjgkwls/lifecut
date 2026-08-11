@@ -11,8 +11,9 @@ function randomCode(): string {
   return Array.from(bytes, (b) => (b % 36).toString(36)).join('')
 }
 
+// /i/코드 경로는 서버(api/invite)가 OG 태그를 심어줘서 카톡/SNS 미리보기가 예쁘게 뜬다
 export function shareUrlFor(code: string): string {
-  return `${location.origin}/?with=${code}`
+  return `${location.origin}/i/${code}`
 }
 
 /** 누끼 4장과 이름을 Vercel Blob에 올리고 공유 코드를 돌려준다 */

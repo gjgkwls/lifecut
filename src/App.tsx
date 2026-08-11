@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import StartScreen from './components/StartScreen'
 import CountSelectScreen from './components/CountSelectScreen'
 import FrameSelectScreen from './components/FrameSelectScreen'
@@ -31,12 +32,13 @@ export default function App() {
   const [shots, setShots] = useState<string[]>([])
   // "make my frame"으로 만든 나만의 인물 프레임 (새로고침 전까지 유지)
   const [myFrame, setMyFrame] = useState<MyFrame | null>(null)
-  // 공유 링크(?with=코드)로 초대받은 친구의 프레임
+  // 공유 링크(/i/코드 또는 예전 ?with=코드)로 초대받은 친구의 프레임
   const [invite, setInvite] = useState<SharedFrame | null>(null)
   const [inviteFailed, setInviteFailed] = useState(false)
 
   useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get('with')
+    const fromPath = window.location.pathname.match(/^\/i\/([a-z0-9]{10,20})$/)?.[1]
+    const code = fromPath ?? new URLSearchParams(window.location.search).get('with')
     if (!code) return
     fetchSharedFrame(code).then((frame) => {
       if (frame) setInvite(frame)
@@ -147,6 +149,7 @@ export default function App() {
         />
       )}
       <p className="site-credit">by.hajin</p>
+      <Analytics />
     </main>
   )
 }
