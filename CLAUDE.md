@@ -43,12 +43,12 @@ src/
   components/         화면별 컴포넌트 + RetroWindow(레트로 창 공통 프레임)
   hooks/useCamera.ts  getUserMedia 카메라 훅
   utils/
-    layouts.ts        LayoutSpec/Slot 정의, LAYOUTS(single/duo/strip4/hajin4/grid4/custom4), FRAMES(배경), customStrip()
+    layouts.ts        LayoutSpec/Slot 정의, LAYOUTS(single/duo/strip4/grid4/custom4), FRAMES(배경), customStrip()
     composeStrip.ts   캔버스에 컷+프레임 합성 → 최종 이미지 생성/다운로드
     cutout.ts         누끼 파이프라인: 1200px 축소 → removeBackground → 최대 연결 성분만 유지 → 알파 bbox 크롭
     frameShare.ts     publishFrame(Blob 업로드 → 공유 코드), fetchSharedFrame, shareUrlFor(/i/코드)
 public/
-  hajin/              ⚠️ 제작자 얼굴 누끼 이미지 (hajin4 레이아웃용) — 절대 외부 유출 금지
+  hajin/              ⚠️ 제작자 얼굴 누끼 이미지 — 절대 외부 유출 금지 (구 hajin4 레이아웃용, 현재 미사용이지만 보존)
   frames/             프레임 배경 이미지 (gingham, star, stripe 등)
 vercel.json           /i/:code → /api/invite?code=:code 리라이트
 ```

@@ -1,4 +1,4 @@
-export type LayoutId = 'single' | 'duo' | 'strip4' | 'hajin4' | 'grid4' | 'custom4'
+export type LayoutId = 'single' | 'duo' | 'strip4' | 'grid4' | 'custom4'
 
 export interface Slot {
   x: number
@@ -59,16 +59,6 @@ export const LAYOUTS: LayoutSpec[] = [
   },
   verticalStrip('duo', '2 cuts', 2),
   verticalStrip('strip4', '4 cuts', 4),
-  {
-    // 포토이즘 아티스트 프레임처럼 hajin과 같이 찍히는 4컷
-    ...verticalStrip('hajin4', '4 cuts with hajin', 4),
-    overlayShots: [
-      '/hajin/hajin-1.png',
-      '/hajin/hajin-2.png',
-      '/hajin/hajin-3.png',
-      '/hajin/hajin-4.png',
-    ],
-  },
   {
     // 레퍼런스처럼 사진 사이는 얇은 틈, 바깥은 넉넉한 여백의 2×2
     id: 'grid4',
