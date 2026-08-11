@@ -12,6 +12,8 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image()
+    // 공유 프레임의 원격 이미지도 캔버스를 오염시키지 않도록 CORS 모드로 로드
+    if (!src.startsWith('data:')) img.crossOrigin = 'anonymous'
     img.onload = () => resolve(img)
     img.onerror = reject
     img.src = src

@@ -1,4 +1,4 @@
-export type LayoutId = 'single' | 'duo' | 'strip4' | 'hajin4' | 'grid4'
+export type LayoutId = 'single' | 'duo' | 'strip4' | 'hajin4' | 'grid4' | 'custom4'
 
 export interface Slot {
   x: number
@@ -86,6 +86,14 @@ export const LAYOUTS: LayoutSpec[] = [
     ],
   },
 ]
+
+/** "make my frame"으로 만든 인물 누끼 4장을 얹는 커스텀 4컷 레이아웃 */
+export function customStrip(name: string, overlayShots: string[]): LayoutSpec {
+  return {
+    ...verticalStrip('custom4', `4 cuts with ${name}`, 4),
+    overlayShots,
+  }
+}
 
 export interface FrameOption {
   id: string

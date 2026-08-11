@@ -1,13 +1,15 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import StartScreen from './components/StartScreen'
 import CountSelectScreen from './components/CountSelectScreen'
 import FrameSelectScreen from './components/FrameSelectScreen'
 import CaptureScreen from './components/CaptureScreen'
 import ResultScreen from './components/ResultScreen'
-import type { FrameOption, LayoutSpec } from './utils/layouts'
+import MakeFrameScreen, { type MyFrame } from './components/MakeFrameScreen'
+import { customStrip, type FrameOption, type LayoutSpec } from './utils/layouts'
+import { fetchSharedFrame, type SharedFrame } from './utils/frameShare'
 import './App.css'
 
-type Screen = 'start' | 'count' | 'frame' | 'capture' | 'result'
+type Screen = 'start' | 'makeFrame' | 'count' | 'frame' | 'capture' | 'result'
 
 const STICKERS = [
   { emoji: '🌼', top: '7%', left: '8%', size: 34, delay: '0s' },
@@ -27,8 +29,41 @@ export default function App() {
   const [layout, setLayout] = useState<LayoutSpec | null>(null)
   const [frame, setFrame] = useState<FrameOption | null>(null)
   const [shots, setShots] = useState<string[]>([])
+  // "make my frame"으로 만든 나만의 인물 프레임 (새로고침 전까지 유지)
+  const [myFrame, setMyFrame] = useState<MyFrame | null>(null)
+  // 공유 링크(?with=코드)로 초대받은 친구의 프레임
+  const [invite, setInvite] = useState<SharedFrame | null>(null)
+  const [inviteFailed, setInviteFailed] = useState(false)
 
-  const handleStart = useCallback(() => setScreen('count'), [])
+  useEffect(() => {
+    const code = new URLSearchParams(window.location.search).get('with')
+    if (!code) return
+    fetchSharedFrame(code).then((frame) => {
+      if (frame) setInvite(frame)
+      else setInviteFailed(true)
+    })
+  }, [])
+
+  const customLayout = useMemo(
+    () => (myFrame ? customStrip(myFrame.name, myFrame.cutouts) : null),
+    [myFrame],
+  )
+
+  // 초대받은 상태면 컷 수 선택 대신 곧바로 친구 프레임으로 진행
+  const handleStart = useCallback(() => {
+    if (invite) {
+      setLayout(customStrip(invite.name, invite.cutouts))
+      setScreen('frame')
+    } else {
+      setScreen('count')
+    }
+  }, [invite])
+
+  const handleTryMyFrame = useCallback(() => {
+    if (!myFrame) return
+    setLayout(customStrip(myFrame.name, myFrame.cutouts))
+    setScreen('frame')
+  }, [myFrame])
 
   const handleLayoutSelect = useCallback((selected: LayoutSpec) => {
     setLayout(selected)
@@ -70,9 +105,26 @@ export default function App() {
           </span>
         ))}
       </div>
-      {screen === 'start' && <StartScreen onStart={handleStart} />}
+      {screen === 'start' && (
+        <StartScreen
+          inviteName={invite?.name ?? null}
+          inviteFailed={inviteFailed}
+          onStart={handleStart}
+          onNormalStart={invite ? () => setScreen('count') : undefined}
+          onMakeFrame={() => setScreen('makeFrame')}
+        />
+      )}
+      {screen === 'makeFrame' && (
+        <MakeFrameScreen
+          existing={myFrame}
+          onReady={setMyFrame}
+          onTryIt={handleTryMyFrame}
+          onExit={() => setScreen('start')}
+        />
+      )}
       {screen === 'count' && (
         <CountSelectScreen
+          customLayout={customLayout}
           onSelect={handleLayoutSelect}
           onBack={() => setScreen('start')}
         />
@@ -80,7 +132,7 @@ export default function App() {
       {screen === 'frame' && (
         <FrameSelectScreen
           onSelect={handleFrameSelect}
-          onBack={() => setScreen('count')}
+          onBack={() => setScreen(invite ? 'start' : 'count')}
         />
       )}
       {screen === 'capture' && layout && (

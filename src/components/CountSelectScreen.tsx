@@ -2,16 +2,18 @@ import RetroWindow from './RetroWindow'
 import { LAYOUTS, type LayoutSpec } from '../utils/layouts'
 
 interface Props {
+  customLayout?: LayoutSpec | null
   onSelect: (layout: LayoutSpec) => void
   onBack: () => void
 }
 
-export default function CountSelectScreen({ onSelect, onBack }: Props) {
+export default function CountSelectScreen({ customLayout, onSelect, onBack }: Props) {
+  const options = customLayout ? [...LAYOUTS, customLayout] : LAYOUTS
   return (
     <div className="screen">
       <RetroWindow title="How many cuts?" className="select-window">
         <div className="option-grid">
-          {LAYOUTS.map((layout) => (
+          {options.map((layout) => (
             <button
               key={layout.id}
               type="button"

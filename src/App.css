@@ -1,4 +1,5 @@
 .app {
+  position: relative;
   width: 100%;
   min-height: 100dvh;
   display: flex;
@@ -192,19 +193,7 @@
   font-family: 'Special Elite', 'Courier New', serif;
   font-size: 20px;
   letter-spacing: 3px;
-  animation: start-pulse 2.4s ease-in-out infinite;
   transition: filter 0.15s ease;
-}
-
-/* 숨쉬듯 은은하게 커졌다 작아지는 펄스 */
-@keyframes start-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
 }
 
 .start-button:hover {
@@ -215,14 +204,29 @@
   filter: brightness(0.94);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .start-button {
-    animation: none;
-  }
+/* 홈 화면 보조 버튼 — 나만의 프레임 만들기 */
+.makeframe-button {
+  padding: 10px 26px;
+  border-radius: 10px;
+  border: 1px solid #a67c52;
+  background: rgba(247, 240, 223, 0.6);
+  color: #6b4e3d;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 15px;
+  letter-spacing: 2px;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
 }
 
+.makeframe-button:hover {
+  border-color: #6b4e3d;
+  transform: scale(1.03);
+}
+
+/* 화면에 고정하지 않고 페이지(문서) 맨 아래에 붙어 함께 스크롤된다 */
 .site-credit {
-  position: fixed;
+  position: absolute;
   bottom: 18px;
   left: 0;
   right: 0;
@@ -505,7 +509,8 @@
 }
 
 .mini-strip4,
-.mini-hajin4 {
+.mini-hajin4,
+.mini-custom4 {
   width: 36px;
   height: 78px;
   grid-template-rows: repeat(4, 1fr);
@@ -720,16 +725,12 @@
 }
 
 .secondary-button {
-  border: 1px solid #c9b48f;
+  border: 1px solid #ffebc7;
   background: #faf5e9;
   color: #6b4e3d;
 }
 
 /* 결과 화면의 retake 버튼만 밝은 크림 테두리 */
-.result-screen .secondary-button {
-  border-color: #ffebc7;
-}
-
 .primary-button:not(:disabled):hover,
 .secondary-button:hover {
   transform: scale(1.05);
@@ -769,4 +770,297 @@
     padding: 12px 26px;
     font-size: 14px;
   }
+}
+
+/* ---------- Make my frame 화면 ---------- */
+
+.makeframe-window {
+  width: min(94vw, 480px);
+  text-align: center;
+}
+
+.makeframe-lead {
+  margin: 0;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6b4e3d;
+}
+
+.makeframe-name-label {
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 14px;
+  color: #a67c52;
+}
+
+.makeframe-input {
+  width: min(70vw, 240px);
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid #c9b48f;
+  background: #fbf6ea;
+  color: #6b4e3d;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 17px;
+  letter-spacing: 1px;
+  text-align: center;
+  outline: none;
+}
+
+.makeframe-input:focus {
+  border-color: #a67c52;
+}
+
+.makeframe-hint {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(107, 78, 61, 0.65);
+}
+
+.makeframe-error {
+  margin: 0;
+  font-size: 13px;
+  color: #94493a;
+}
+
+.makeframe-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.makeframe-thumb {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #d6c4a3;
+  background: #e5d7bd;
+}
+
+.makeframe-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.makeframe-thumb-num {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(107, 78, 61, 0.8);
+  color: #f7f2e7;
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.makeframe-scissors {
+  font-size: 44px;
+  animation: scissors-snip 1.1s ease-in-out infinite;
+}
+
+@keyframes scissors-snip {
+  0%,
+  100% {
+    transform: rotate(-8deg) scale(1);
+  }
+  50% {
+    transform: rotate(10deg) scale(1.15);
+  }
+}
+
+.makeframe-status {
+  margin: 0;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 15px;
+  color: #6b4e3d;
+  min-height: 1.4em;
+}
+
+/* 누끼 결과 미리보기 — 검은 배경 세로 스트립, 인물 위치는 촬영 오버레이(65%, 왼쪽 아래)와 동일 */
+.myframe-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background: #171310;
+  border-radius: 6px;
+  box-shadow: 0 10px 24px rgba(107, 78, 61, 0.3);
+}
+
+.myframe-cell {
+  position: relative;
+  width: min(58vw, 224px);
+  aspect-ratio: 4 / 3;
+  background: #000;
+  overflow: hidden;
+}
+
+.myframe-cell img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 65%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left bottom;
+}
+
+/* ---------- 공유 (share my frame) ---------- */
+
+/* 초대 안내 — 배경/테두리 없이 작은 문구만 */
+.invite-note {
+  margin: 0;
+}
+
+.invite-note-line {
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #a67c52;
+}
+
+/* 초대 메인 버튼 — 일반 홈 start와 같은 스타일, 이름이 길어질 수 있어 여백만 살짝 줄임 */
+.invite-start {
+  padding: 15px 34px;
+  letter-spacing: 2px;
+}
+
+/* 이름 — 한글/영문 모두 지원하는 세리프체로 강조 (크기는 나머지 텍스트와 동일) */
+.invite-start strong {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* 초대 홈 맨 아래 — 일반 네컷으로 빠지는 작은 언더라인 텍스트 버튼 */
+.normal-cut-button {
+  padding: 4px 6px;
+  border: none;
+  background: none;
+  color: #a67c52;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.normal-cut-button:hover {
+  color: #6b4e3d;
+}
+
+.invite-error {
+  margin: 0;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 14px;
+  color: rgba(107, 78, 61, 0.6);
+}
+
+.share-link-input {
+  width: min(80vw, 330px);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+}
+
+/* make my frame 흐름의 한글 텍스트/버튼은 Noto Serif KR (타이틀바와 back 버튼은 영어라 제외) */
+.makeframe-window .makeframe-lead,
+.makeframe-window .makeframe-name-label,
+.makeframe-window .makeframe-input,
+.makeframe-window .makeframe-hint,
+.makeframe-window .makeframe-error,
+.makeframe-window .makeframe-status,
+.makeframe-window .primary-button,
+.makeframe-window .secondary-button {
+  font-family: 'Noto Serif KR', 'Special Elite', serif;
+  letter-spacing: 0.5px;
+}
+
+.makeframe-window .back-button {
+  font-family: 'Special Elite', 'Courier New', serif;
+}
+
+/* 미리보기 컷 순서 표시 + 위/아래 이동 버튼 */
+.myframe-cell-num {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(251, 246, 234, 0.85);
+  color: #6b4e3d;
+  font-family: 'Special Elite', 'Courier New', serif;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.myframe-cell-controls {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.myframe-move {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #d6c4a3;
+  background: rgba(251, 246, 234, 0.9);
+  color: #6b4e3d;
+  font-size: 11px;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.myframe-move:not(:disabled):hover {
+  transform: scale(1.1);
+}
+
+.myframe-move:disabled {
+  opacity: 0.35;
+}
+
+/* 드래그 정렬 — 셀 전체(마우스) 또는 ⠿ 손잡이(터치)로 끌어서 순서 변경 */
+.myframe-cell {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.myframe-cell img {
+  -webkit-user-drag: none;
+}
+
+.myframe-cell.dragging {
+  cursor: grabbing;
+  z-index: 2;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+  opacity: 0.95;
+}
+
+.myframe-handle {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #d6c4a3;
+  background: rgba(251, 246, 234, 0.9);
+  color: #6b4e3d;
+  font-size: 13px;
+  line-height: 1;
+  touch-action: none;
+  cursor: grab;
 }
